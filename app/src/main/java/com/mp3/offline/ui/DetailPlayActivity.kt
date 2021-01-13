@@ -1,4 +1,4 @@
-package com.example.lirikmp3offline.ui
+package com.mp3.offline.ui
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -6,8 +6,8 @@ import android.os.Handler
 import android.view.View
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
-import com.example.lirikmp3offline.databinding.ActivityDetailPlayBinding
-import com.example.lirikmp3offline.model.Model
+import com.mp3.offline.databinding.ActivityDetailPlayBinding
+import com.mp3.offline.model.Model
 import java.util.concurrent.TimeUnit
 
 class DetailPlayActivity : AppCompatActivity() {
@@ -15,8 +15,6 @@ class DetailPlayActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPlayBinding
     private var dataDetail: Model? = null
     private var mMediaPlayer: MediaPlayer? = null
-    var mRunnable: Runnable? = null
-    var mHandler: Handler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

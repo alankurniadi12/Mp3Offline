@@ -1,4 +1,4 @@
-package com.example.lirikmp3offline
+package com.mp3.offline
 
 import org.junit.Test
 

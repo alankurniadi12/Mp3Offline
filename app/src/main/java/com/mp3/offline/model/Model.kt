@@ -1,4 +1,4 @@
-package com.example.lirikmp3offline.model
+package com.mp3.offline.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -1,4 +1,4 @@
-package com.example.lirikmp3offline.adapter
+package com.mp3.offline.adapter
 
 import android.app.Activity
 import android.content.Intent
@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.lirikmp3offline.R
-import com.example.lirikmp3offline.databinding.ItemBinding
-import com.example.lirikmp3offline.model.Model
-import com.example.lirikmp3offline.ui.CostumeOnItemClickCallback
-import com.example.lirikmp3offline.ui.DetailPlayActivity
+import com.mp3.offline.databinding.ItemBinding
+import com.mp3.offline.model.Model
+import com.mp3.offline.ui.CostumeOnItemClickCallback
+import com.mp3.offline.ui.DetailPlayActivity
 import kotlinx.android.synthetic.main.item.view.*
 
 class ListAdapter(private val activity: Activity, private val listItem: ArrayList<Model>): RecyclerView.Adapter<ListAdapter.ListViewHolder>() {

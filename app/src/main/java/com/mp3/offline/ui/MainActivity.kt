@@ -1,14 +1,12 @@
-package com.example.lirikmp3offline.ui
+package com.mp3.offline.ui
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.lirikmp3offline.R
-import com.example.lirikmp3offline.adapter.ListAdapter
-import com.example.lirikmp3offline.databinding.ActivityMainBinding
-import com.example.lirikmp3offline.model.Model
+import com.mp3.offline.adapter.ListAdapter
+import com.mp3.offline.databinding.ActivityMainBinding
+import com.mp3.offline.model.Model
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

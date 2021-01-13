@@ -1,7 +1,7 @@
-package com.example.lirikmp3offline.utils
+package com.mp3.offline.utils
 
-import com.example.lirikmp3offline.R
-import com.example.lirikmp3offline.model.Model
+import com.mp3.offline.R
+import com.mp3.offline.model.Model
 
 object Data {
 
