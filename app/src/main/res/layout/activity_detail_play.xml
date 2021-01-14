@@ -50,7 +50,8 @@
             android:id="@+id/img_cover"
             android:layout_width="170dp"
             android:layout_height="190dp"
-            tools:src="@drawable/nissa1" />
+            tools:src="@drawable/nissa1"
+            android:contentDescription="@string/image_cover" />
     </androidx.cardview.widget.CardView>
 
 
