@@ -8,14 +8,13 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.mp3.offline.databinding.ActivityDetailPlayBinding
 import com.mp3.offline.model.Model
-import kotlinx.android.synthetic.main.activity_detail_play.*
 import java.util.concurrent.TimeUnit
 
 class DetailPlayActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailPlayBinding
     private var dataDetail: Model? = null
-    private var mMediaPlayer: MediaPlayer? = null
+    private var mp: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,40 +30,44 @@ class DetailPlayActivity : AppCompatActivity() {
         setPlayer(dataDetail!!.mp3)
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mp?.release()
+    }
+
     private fun setPlayer(mp3: Int) {
         binding.imgPlay.setOnClickListener {
-            if (mMediaPlayer == null) {
-                mMediaPlayer = MediaPlayer.create(this, mp3)
+            if (mp == null){
+                mp = MediaPlayer.create(this, mp3)
                 initialiseSeekBar()
             }
-            mMediaPlayer?.start()
+            mp?.start()
 
             binding.imgPause.visibility = View.VISIBLE
             binding.imgPlay.visibility = View.GONE
         }
 
         binding.imgPause.setOnClickListener {
-            if (mMediaPlayer != null) mMediaPlayer?.pause()
+            if (mp != null) mp?.pause()
 
             binding.imgPause.visibility = View.GONE
             binding.imgPlay.visibility = View.VISIBLE
         }
 
         binding.imgStop.setOnClickListener {
-            if (mMediaPlayer != null) {
-                mMediaPlayer?.stop()
-                mMediaPlayer?.reset()
-                mMediaPlayer?.release()
-                mMediaPlayer = null
+            if (mp != null) {
+                mp?.stop()
+                mp?.reset()
+                mp?.release()
+                mp = null
             }
-
             binding.imgPause.visibility = View.GONE
             binding.imgPlay.visibility = View.VISIBLE
         }
 
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if (fromUser) mMediaPlayer?.seekTo(progress)
+                if (fromUser) mp?.seekTo(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -76,13 +79,13 @@ class DetailPlayActivity : AppCompatActivity() {
     }
 
     private fun initialiseSeekBar() {
-        binding.seekBar.max = mMediaPlayer!!.duration
+        binding.seekBar.max = mp!!.duration
 
         val handler = Handler()
         handler.postDelayed(object: Runnable {
             override fun run() {
                 try {
-                    binding.seekBar.progress = mMediaPlayer!!.currentPosition
+                    binding.seekBar.progress = mp!!.currentPosition
                     handler.postDelayed(this, 1000)
                 } catch (e: Exception){
                     binding.seekBar.progress = 0
@@ -90,19 +93,11 @@ class DetailPlayActivity : AppCompatActivity() {
                 }
             }
         }, 0)
-        val duration = mMediaPlayer?.duration
+        val duration = mp!!.duration
         val time = String.format("%02d:%02d",
-            TimeUnit.MILLISECONDS.toMinutes(duration!!.toLong()),
+            TimeUnit.MILLISECONDS.toMinutes(duration.toLong()),
             TimeUnit.MILLISECONDS.toSeconds(duration.toLong()) -
                     TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong())))
         binding.tvDuration.text = time
     }
-
-    /*val duration = mMediaPlayer?.duration
-    val time = String.format("%02d:%02d",
-        TimeUnit.MILLISECONDS.toMinutes(duration!!.toLong()),
-        TimeUnit.MILLISECONDS.toSeconds(duration.toLong()) -
-                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong()))
-    )
-    binding.tvDuration.text = time*/
 }
