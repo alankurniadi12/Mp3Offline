@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="30sp"
+            android:textSize="24sp"
             tools:text="Song title" />
 
         <TextView
@@ -31,33 +31,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             tools:text="Artist" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/img_cover"
-        android:layout_width="150dp"
-        android:layout_height="170dp"
-        tools:src="@drawable/nissa1"
-        android:layout_marginTop="16dp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42000002">
+
+        <ImageView
+            android:id="@+id/img_cover"
+            android:layout_width="170dp"
+            android:layout_height="190dp"
+            tools:src="@drawable/nissa1" />
+    </androidx.cardview.widget.CardView>
+
 
     <SeekBar
         android:id="@+id/seek_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="275dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_cover"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tv_duration"
@@ -70,28 +76,51 @@
         app:layout_constraintStart_toStartOf="@+id/seek_bar"
         app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/img_play"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic__play_circle_24"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_duration" />
+        app:layout_constraintEnd_toStartOf="@+id/tv_duration"
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
 
     <ImageView
         android:id="@+id/img_pause"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_pause_circle_24"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_duration" />
+        app:layout_constraintEnd_toStartOf="@+id/tv_duration"
+        app:layout_constraintTop_toTopOf="@+id/tv_duration" />
+
+    <ImageView
+        android:id="@+id/img_stop"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/ic_stop_circle_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_duration"
+        app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

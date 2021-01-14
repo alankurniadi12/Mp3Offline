@@ -8,6 +8,7 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import com.mp3.offline.databinding.ActivityDetailPlayBinding
 import com.mp3.offline.model.Model
+import kotlinx.android.synthetic.main.activity_detail_play.*
 import java.util.concurrent.TimeUnit
 
 class DetailPlayActivity : AppCompatActivity() {
@@ -28,8 +29,6 @@ class DetailPlayActivity : AppCompatActivity() {
         binding.imgCover.setImageResource(dataDetail!!.photo)
 
         setPlayer(dataDetail!!.mp3)
-
-
     }
 
     private fun setPlayer(mp3: Int) {
@@ -51,6 +50,18 @@ class DetailPlayActivity : AppCompatActivity() {
             binding.imgPlay.visibility = View.VISIBLE
         }
 
+        binding.imgStop.setOnClickListener {
+            if (mMediaPlayer != null) {
+                mMediaPlayer?.stop()
+                mMediaPlayer?.reset()
+                mMediaPlayer?.release()
+                mMediaPlayer = null
+            }
+
+            binding.imgPause.visibility = View.GONE
+            binding.imgPlay.visibility = View.VISIBLE
+        }
+
         binding.seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 if (fromUser) mMediaPlayer?.seekTo(progress)
@@ -61,9 +72,7 @@ class DetailPlayActivity : AppCompatActivity() {
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
             }
-
         })
-
     }
 
     private fun initialiseSeekBar() {
@@ -79,15 +88,21 @@ class DetailPlayActivity : AppCompatActivity() {
                     binding.seekBar.progress = 0
                     e.printStackTrace()
                 }
-                val duration = mMediaPlayer?.duration
-                val time = String.format("%02d:%02d",
-                    TimeUnit.MILLISECONDS.toMinutes(duration!!.toLong()),
-                    TimeUnit.MILLISECONDS.toSeconds(duration.toLong()) -
-                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong()))
-                )
-                binding.tvDuration.text = time
             }
-
         }, 0)
+        val duration = mMediaPlayer?.duration
+        val time = String.format("%02d:%02d",
+            TimeUnit.MILLISECONDS.toMinutes(duration!!.toLong()),
+            TimeUnit.MILLISECONDS.toSeconds(duration.toLong()) -
+                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong())))
+        binding.tvDuration.text = time
     }
+
+    /*val duration = mMediaPlayer?.duration
+    val time = String.format("%02d:%02d",
+        TimeUnit.MILLISECONDS.toMinutes(duration!!.toLong()),
+        TimeUnit.MILLISECONDS.toSeconds(duration.toLong()) -
+                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong()))
+    )
+    binding.tvDuration.text = time*/
 }
