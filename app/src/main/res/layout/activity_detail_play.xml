@@ -24,6 +24,8 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textSize="24sp"
+            android:textStyle="bold"
+            android:maxLines="2"
             tools:text="Song title" />
 
         <TextView
@@ -31,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="18sp"
+            android:textSize="14sp"
             tools:text="Artist" />
     </LinearLayout>
 
@@ -50,6 +52,7 @@
             android:id="@+id/img_cover"
             android:layout_width="170dp"
             android:layout_height="190dp"
+            android:scaleType="fitXY"
             tools:src="@drawable/nissa1"
             android:contentDescription="@string/image_cover" />
     </androidx.cardview.widget.CardView>

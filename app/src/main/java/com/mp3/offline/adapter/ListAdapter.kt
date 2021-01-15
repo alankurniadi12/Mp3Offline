@@ -65,10 +65,10 @@ class ListAdapter(private val activity: Activity):
                     filterResult.count = dataFilter.size
                     filterResult.values = dataFilter
                 } else {
-                    val search = constraint.toString()
+                    val search = constraint.toString().toLowerCase()
                     val itemModel = ArrayList<Model>()
                     for (i in dataFilter) {
-                        if (i.title.contains(search) || i.artist.contains(search)) {
+                        if (i.title.toLowerCase().contains(search) || i.artist.toLowerCase().contains(search)) {
                             itemModel.add(i)
                         }
                     }

@@ -1,11 +1,15 @@
 package com.mp3.offline.ui
 
+import android.content.pm.ActivityInfo
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
+import android.view.OrientationEventListener
 import android.view.View
+import android.widget.HorizontalScrollView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.rotationMatrix
 import com.mp3.offline.databinding.ActivityDetailPlayBinding
 import com.mp3.offline.model.Model
 import java.util.concurrent.TimeUnit
@@ -20,6 +24,8 @@ class DetailPlayActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailPlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         dataDetail = intent.getParcelableExtra("keyData") as Model
 

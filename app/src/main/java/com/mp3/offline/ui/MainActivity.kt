@@ -1,11 +1,9 @@
 package com.mp3.offline.ui
 
 import android.app.SearchManager
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Display
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +12,8 @@ import com.mp3.offline.adapter.ListAdapter
 import com.mp3.offline.databinding.ActivityMainBinding
 import com.mp3.offline.model.Model
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSearch(): Boolean {
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
 
         binding.search.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         binding.search.queryHint = resources.getString(R.string.search_title)
