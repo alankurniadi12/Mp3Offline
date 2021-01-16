@@ -23,8 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:theme="@style/Title"
             android:maxLines="2"
             tools:text="Song title" />
 
