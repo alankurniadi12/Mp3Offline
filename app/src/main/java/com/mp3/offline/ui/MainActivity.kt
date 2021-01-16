@@ -2,6 +2,7 @@ package com.mp3.offline.ui
 
 import android.app.SearchManager
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -11,7 +12,6 @@ import com.mp3.offline.R
 import com.mp3.offline.adapter.ListAdapter
 import com.mp3.offline.databinding.ActivityMainBinding
 import com.mp3.offline.model.Model
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -29,14 +29,18 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
         val data = viewModel.getDataMp3()
 
-        rv_item.setHasFixedSize(true)
+        binding.rvItem.setHasFixedSize(true)
 
-        rv_item.layoutManager = LinearLayoutManager(this)
+        binding.rvItem.layoutManager = LinearLayoutManager(this)
         listAdapter = ListAdapter(this)
         listAdapter.setData(data as ArrayList<Model>)
-        rv_item.adapter = listAdapter
+        binding.rvItem.adapter = listAdapter
 
         setSearch()
+
+        window.decorView.apply {
+            systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        }
     }
 
     private fun setSearch(): Boolean {
