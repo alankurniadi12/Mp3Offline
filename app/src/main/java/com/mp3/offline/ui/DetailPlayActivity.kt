@@ -1,5 +1,6 @@
 package com.mp3.offline.ui
 
+import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -13,6 +14,7 @@ import androidx.core.graphics.rotationMatrix
 import com.mp3.offline.databinding.ActivityDetailPlayBinding
 import com.mp3.offline.model.Model
 import java.util.concurrent.TimeUnit
+import kotlin.system.exitProcess
 
 class DetailPlayActivity : AppCompatActivity() {
 
@@ -34,6 +36,16 @@ class DetailPlayActivity : AppCompatActivity() {
         binding.imgCover.setImageResource(dataDetail!!.photo)
 
         setPlayer(dataDetail!!.mp3)
+
+
+
+
+        binding.btnPlaybackground.setOnClickListener {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }
     }
 
     override fun onBackPressed() {
