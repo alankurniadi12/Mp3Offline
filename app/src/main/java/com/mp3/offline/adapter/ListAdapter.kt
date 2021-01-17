@@ -1,25 +1,23 @@
 package com.mp3.offline.adapter
 
 import android.app.Activity
-import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import com.mp3.offline.databinding.ItemBinding
 import com.mp3.offline.model.Model
-import com.mp3.offline.ui.CostumeOnItemClickCallback
-import com.mp3.offline.ui.DetailPlayActivity
-import java.util.*
-import kotlin.collections.ArrayList
 
 class ListAdapter(private val activity: Activity):
     RecyclerView.Adapter<ListAdapter.ListViewHolder>(),
     Filterable {
 
+    private var onItemClickCallback: OnItemClickCallback? = null
 
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
     var data = ArrayList<Model>()
     val dataFilter = ArrayList<Model>()
 
@@ -47,13 +45,16 @@ class ListAdapter(private val activity: Activity):
             binding.tvArtisName.text = model.artist
             binding.imgCover.setImageResource(model.photo)
 
-            binding.cardViewItem.setOnClickListener(CostumeOnItemClickCallback(object : CostumeOnItemClickCallback.OnItemClickCallback {
+            binding.cardViewItem.setOnClickListener { onItemClickCallback?.onItemClicked(model) }
+
+            /*binding.cardViewItem.setOnClickListener(CostumeOnItemClickCallback(object : CostumeOnItemClickCallback.OnItemClickCallback {
                 override fun onItemClickCallback(v: View?) {
+
                     val intent = Intent(activity, DetailPlayActivity::class.java)
                     intent.putExtra("keyData", model)
                     activity.startActivity(intent)
                 }
-            }))
+            }))*/
         }
     }
 
@@ -84,5 +85,9 @@ class ListAdapter(private val activity: Activity):
             }
 
         }
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: Model)
     }
 }
