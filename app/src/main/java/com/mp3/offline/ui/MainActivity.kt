@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var listAdapter: ListAdapter
     private lateinit var viewModel: MainViewModel
-
     private lateinit var mInterstitialAd: InterstitialAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,14 +47,8 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
         val data = viewModel.getDataMp3()
 
-
         setRecyclerView(data)
         setSearch()
-
-        window.decorView.apply {
-            systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        }
-
 
     }
 
@@ -90,15 +83,11 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
                 return true
             }
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 listAdapter.filter.filter(newText)
                 return true
             }
-
         })
         return true
     }
-
-
 }

@@ -11,6 +11,9 @@ import android.widget.HorizontalScrollView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.rotationMatrix
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.mp3.offline.databinding.ActivityDetailPlayBinding
 import com.mp3.offline.model.Model
 import java.util.concurrent.TimeUnit
@@ -21,11 +24,18 @@ class DetailPlayActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPlayBinding
     private var dataDetail: Model? = null
     private var mp: MediaPlayer? = null
+    lateinit var mAdView : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailPlayBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //AdMob Code
+        MobileAds.initialize(this) {}
+        mAdView = binding.adView
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
@@ -36,9 +46,6 @@ class DetailPlayActivity : AppCompatActivity() {
         binding.imgCover.setImageResource(dataDetail!!.photo)
 
         setPlayer(dataDetail!!.mp3)
-
-
-
 
         binding.btnPlaybackground.setOnClickListener {
             val intent = Intent(Intent.ACTION_MAIN)

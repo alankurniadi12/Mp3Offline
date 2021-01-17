@@ -26,7 +26,7 @@ class ListAdapter(private val activity: Activity):
         data.clear()
         data.addAll(items)
         dataFilter.addAll(items)
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -46,15 +46,6 @@ class ListAdapter(private val activity: Activity):
             binding.imgCover.setImageResource(model.photo)
 
             binding.cardViewItem.setOnClickListener { onItemClickCallback?.onItemClicked(model) }
-
-            /*binding.cardViewItem.setOnClickListener(CostumeOnItemClickCallback(object : CostumeOnItemClickCallback.OnItemClickCallback {
-                override fun onItemClickCallback(v: View?) {
-
-                    val intent = Intent(activity, DetailPlayActivity::class.java)
-                    intent.putExtra("keyData", model)
-                    activity.startActivity(intent)
-                }
-            }))*/
         }
     }
 
