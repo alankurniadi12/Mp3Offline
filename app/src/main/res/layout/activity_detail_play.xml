@@ -38,27 +38,16 @@
             tools:text="Artist" />
     </LinearLayout>
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="3dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_cover"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.31">
-
-        <ImageView
-            android:id="@+id/img_cover"
-            android:layout_width="250dp"
-            android:layout_height="280dp"
-            android:contentDescription="@string/image_cover"
-            android:scaleType="fitXY"
-            tools:src="@drawable/nissa1" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintVertical_bias="0.32"
+        tools:src="@drawable/nissa1" />
 
     <Button
         android:id="@+id/btn_playbackground"
@@ -83,7 +72,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintTop_toBottomOf="@+id/img_cover"
+        app:layout_constraintVertical_bias="0.47000003" />
 
     <TextView
         android:id="@+id/tv_duration"

@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.OrientationEventListener
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.RotateAnimation
 import android.widget.HorizontalScrollView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +27,7 @@ class DetailPlayActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailPlayBinding
     private var dataDetail: Model? = null
     private var mp: MediaPlayer? = null
+    var rotateAnimation: RotateAnimation? = null
     lateinit var mAdView : AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,11 +74,21 @@ class DetailPlayActivity : AppCompatActivity() {
 
             binding.imgPause.visibility = View.VISIBLE
             binding.imgPlay.visibility = View.GONE
+
+            rotateAnimation = RotateAnimation(0f, 360f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f)
+            rotateAnimation!!.duration = 15000
+            rotateAnimation!!.interpolator = LinearInterpolator()
+            rotateAnimation!!.repeatCount =Animation.INFINITE
+
+            binding.imgCover.startAnimation(rotateAnimation)
         }
 
         binding.imgPause.setOnClickListener {
             if (mp != null) mp?.pause()
 
+            rotateAnimation!!.cancel()
             binding.imgPause.visibility = View.GONE
             binding.imgPlay.visibility = View.VISIBLE
         }
@@ -86,6 +100,8 @@ class DetailPlayActivity : AppCompatActivity() {
                 mp?.release()
                 mp = null
             }
+
+            rotateAnimation!!.cancel()
             binding.imgPause.visibility = View.GONE
             binding.imgPlay.visibility = View.VISIBLE
         }
