@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import com.mp3.offline.R
 
-class Splash_Screen : AppCompatActivity() {
+class SplashScreen : AppCompatActivity() {
 
     private val SPLASH_TIME: Long = 2500
 
