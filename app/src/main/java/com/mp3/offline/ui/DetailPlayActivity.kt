@@ -73,7 +73,7 @@ class DetailPlayActivity : AppCompatActivity() {
 
         Thread(Runnable {
             while (mp != null) {
-                var msg = Message()
+                val msg = Message()
                 try {
                     msg.what = mp!!.currentPosition
                     handler.sendMessage(msg)
@@ -92,23 +92,24 @@ class DetailPlayActivity : AppCompatActivity() {
 
     @SuppressLint("HandlerLeak")
     var handler = object : Handler() {
+        @SuppressLint("SetTextI18n")
         override fun handleMessage(msg: Message) {
-            var currentPosition = msg.what
+            val currentPosition = msg.what
 
             binding.positionBar.progress = currentPosition
 
-            var elapsedTime = createTimeLabel(currentPosition)
+            val elapsedTime = createTimeLabel(currentPosition)
             binding.tvElapsedTime.text = elapsedTime
 
-            var remainingTime = createTimeLabel(totalTime - currentPosition)
+            val remainingTime = createTimeLabel(totalTime - currentPosition)
             binding.tvRemainingTime.text = "-$remainingTime"
         }
     }
 
     private fun createTimeLabel(time: Int): String {
         var timeLabel = ""
-        var min = time / 1000 / 60
-        var sec = time / 1000 % 60
+        val min = time / 1000 / 60
+        val sec = time / 1000 % 60
 
         timeLabel = "$min:"
         if (sec < 10) timeLabel += "0"
