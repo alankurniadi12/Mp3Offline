@@ -1,12 +1,10 @@
 package com.mp3.offline.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
-import android.os.Message
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
@@ -19,15 +17,17 @@ import com.google.android.gms.ads.MobileAds
 import com.mp3.offline.R
 import com.mp3.offline.databinding.ActivityDetailPlayBinding
 import com.mp3.offline.model.Model
+import java.util.concurrent.TimeUnit
 
 class DetailPlayActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailPlayBinding
     private var dataDetail: Model? = null
     private var mp: MediaPlayer? = null
-    private var totalTime: Int = 0
     var rotateAnimation: RotateAnimation? = null
     lateinit var mAdView : AdView
+    private lateinit var runnable: Runnable
+    var mHandler: Handler? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ class DetailPlayActivity : AppCompatActivity() {
         //Lock screen rotation
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
-        //Get data mp3
+        //Get data
         dataDetail = intent.getParcelableExtra("keyData") as Model
 
         //Set Ui
@@ -46,21 +46,34 @@ class DetailPlayActivity : AppCompatActivity() {
         binding.tvArtist.text = dataDetail!!.artist
         binding.imgCover.setImageResource(dataDetail!!.photo)
 
-        //Media Player
+        //Initialize media player
         mp = MediaPlayer.create(this, dataDetail!!.mp3)
         mp!!.isLooping = true
-        totalTime = mp!!.duration
 
-        //Set progressbar
-        binding.positionBar.max = totalTime
+
+        mHandler = Handler()
+        runnable = Runnable {
+            binding.positionBar.progress = mp!!.currentPosition
+            mHandler!!.postDelayed(runnable, 500)
+        }
+
+        //Get duration total from mp3
+        val duration = mp!!.duration
+        val time = convertFormat(duration)
+        binding.tvTotalTime.text = time
+
+
         binding.positionBar.setOnSeekBarChangeListener(
             object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
-                    seekBar: SeekBar?,
+                    seekBar: SeekBar,
                     progress: Int,
                     fromUser: Boolean
                 ) {
-                    if (fromUser) mp!!.seekTo(progress)
+                    if (fromUser) {
+                        mp!!.seekTo(progress)
+                    }
+                    binding.tvElapsedTime.text = convertFormat(mp!!.currentPosition)
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -71,17 +84,6 @@ class DetailPlayActivity : AppCompatActivity() {
             }
         )
 
-        Thread(Runnable {
-            while (mp != null) {
-                val msg = Message()
-                try {
-                    msg.what = mp!!.currentPosition
-                    handler.sendMessage(msg)
-                    Thread.sleep(1000)
-                }catch (e: InterruptedException){
-                }
-            }
-        }).start()
 
         //AdMob Code
         MobileAds.initialize(this) {}
@@ -90,42 +92,48 @@ class DetailPlayActivity : AppCompatActivity() {
         mAdView.loadAd(adRequest)
     }
 
-    @SuppressLint("HandlerLeak")
-    var handler = object : Handler() {
-        @SuppressLint("SetTextI18n")
-        override fun handleMessage(msg: Message) {
-            val currentPosition = msg.what
+    private fun convertFormat(duration: Int): String {
+        return String.format("%02d:%02d",
+            TimeUnit.MILLISECONDS.toMinutes(duration.toLong()),
+            TimeUnit.MILLISECONDS.toSeconds(duration.toLong()) -
+            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong()))
+        )
+    }
 
-            binding.positionBar.progress = currentPosition
 
-            val elapsedTime = createTimeLabel(currentPosition)
-            binding.tvElapsedTime.text = elapsedTime
-
-            val remainingTime = createTimeLabel(totalTime - currentPosition)
-            binding.tvRemainingTime.text = "-$remainingTime"
+    fun rewindBtn(v: View) {
+        var currentPosition = mp!!.currentPosition
+        if (mp!!.isPlaying && currentPosition > 5000) {
+            currentPosition -= 5000
+            binding.tvElapsedTime.text = convertFormat(currentPosition)
+            mp!!.seekTo(currentPosition)
         }
     }
 
-    private fun createTimeLabel(time: Int): String {
-        var timeLabel = ""
-        val min = time / 1000 / 60
-        val sec = time / 1000 % 60
-
-        timeLabel = "$min:"
-        if (sec < 10) timeLabel += "0"
-        timeLabel += sec
-
-        return timeLabel
+    fun fastForward(v: View) {
+        var currentPosition = mp!!.currentPosition
+        val duration = mp!!.duration
+        if (mp!!.isPlaying && duration != currentPosition) {
+            currentPosition += 5000
+            binding.tvElapsedTime.text = convertFormat(currentPosition)
+            mp!!.seekTo(currentPosition)
+        }
     }
 
     fun playButtonClick(v: View) {
         if (mp!!.isPlaying) {
             mp!!.pause()
+
+            mHandler?.removeCallbacks(runnable)
             binding.imgPlay.setImageResource(R.drawable.ic__play_circle_24)
 
             rotateAnimation!!.cancel()
         } else {
             mp!!.start()
+
+            binding.positionBar.max = mp!!.duration
+            mHandler?.postDelayed(runnable, 0)
+
             binding.imgPlay.setImageResource(R.drawable.ic_pause_circle_24)
 
             rotateAnimation = RotateAnimation(0f, 360f,
