@@ -57,14 +57,15 @@
         android:layout_marginBottom="8dp"
         android:text="@string/play_background"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toTopOf="@+id/seek_bar"
+        android:onClick="playBtnBackground"
+        app:layout_constraintBottom_toTopOf="@+id/positionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
 
     <SeekBar
-        android:id="@+id/seek_bar"
+        android:id="@+id/positionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -73,20 +74,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_cover"
-        app:layout_constraintVertical_bias="0.47000003" />
+        app:layout_constraintVertical_bias="0.43" />
 
     <TextView
-        android:id="@+id/tv_duration"
+        android:id="@+id/tv_elapsed_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/tv_duration_start_00_00"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/positionBar" />
+
+    <TextView
+        android:id="@+id/tv_remaining_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:text="@string/duration_00_00"
-        android:textAlignment="center"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
+        app:layout_constraintTop_toBottomOf="@+id/positionBar" />
 
 
     <LinearLayout
@@ -98,46 +110,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seek_bar"
+        app:layout_constraintTop_toBottomOf="@+id/positionBar"
         app:layout_constraintVertical_bias="0.0">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/img_play"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic__play_circle_24"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/img_pause"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_pause_circle_24"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
         <ImageView
+            android:id="@+id/img_play"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic__play_circle_24"
+            android:onClick="playButtonClick"/>
+
+        <!--<ImageView
             android:id="@+id/img_stop"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/ic_stop_circle_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.44"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seek_bar" />
+            android:onClick="stopButtonClick"/>-->
     </LinearLayout>
 
     <com.google.android.gms.ads.AdView

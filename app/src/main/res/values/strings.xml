@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Mp3 Offline</string>
     <string name="image_cover">Image Cover</string>
-    <string name="duration_00_00">00:00</string>
+    <string name="tv_duration_start_00_00">0:00</string>
+    <string name="duration_00_00">-0:00</string>
     <string name="search_title">Search Title</string>
     <string name="play_background">Play Background</string>
 
@@ -9,5 +10,6 @@
     <string name="AdMob_app_id">ca-app-pub-3940256099942544~3347511713</string>
     <string name="AdMob_interstitial_id">ca-app-pub-3940256099942544/1033173712</string>
     <string name="AdMob_banner_id">ca-app-pub-3940256099942544/6300978111</string>
+
 
 </resources>
