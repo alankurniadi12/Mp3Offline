@@ -3,6 +3,7 @@ package com.mp3.offline.ui
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,7 @@ import com.mp3.offline.databinding.ActivityMainBinding
 import com.mp3.offline.model.Model
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var listAdapter: ListAdapter
     private lateinit var viewModel: MainViewModel
     private lateinit var mInterstitialAd: InterstitialAd
+    private var backToast: Toast? = null
+    private var backPress: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,5 +93,23 @@ class MainActivity : AppCompatActivity() {
             }
         })
         return true
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
+        backToast = Toast.makeText(this, "Press back again to exit!", Toast.LENGTH_SHORT)
+        if (backPress + 2000 > System.currentTimeMillis()) {
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.addCategory(Intent.CATEGORY_HOME)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            backToast?.cancel()
+            return super.onKeyDown(keyCode, event)
+        } else {
+            backToast?.show()
+        }
+        backPress = System.currentTimeMillis()
+        return true
+
     }
 }
