@@ -52,8 +52,6 @@
         tools:src="@drawable/nissa1" />
 
 
-
-
     <SeekBar
         android:id="@+id/positionBar"
         android:layout_width="match_parent"
@@ -66,7 +64,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_cover"
-        app:layout_constraintVertical_bias="0.53" />
+        app:layout_constraintVertical_bias="0.49" />
 
     <TextView
         android:id="@+id/tv_elapsed_time"
