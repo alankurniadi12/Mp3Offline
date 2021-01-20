@@ -4,7 +4,6 @@ import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -19,8 +18,6 @@ import com.mp3.offline.adapter.ListAdapter
 import com.mp3.offline.databinding.ActivityMainBinding
 import com.mp3.offline.model.Model
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     private fun setRecyclerView(data: List<Model>) {
         binding.rvItem.layoutManager = LinearLayoutManager(this)
         listAdapter = ListAdapter(this)
+        listAdapter.notifyDataSetChanged()
         listAdapter.setData(data as ArrayList<Model>)
         binding.rvItem.adapter = listAdapter
 

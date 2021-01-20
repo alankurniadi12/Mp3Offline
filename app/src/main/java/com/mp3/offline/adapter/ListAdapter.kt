@@ -26,7 +26,7 @@ class ListAdapter(private val activity: Activity):
         data.clear()
         data.addAll(items)
         dataFilter.addAll(items)
-        //notifyDataSetChanged()
+        notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
