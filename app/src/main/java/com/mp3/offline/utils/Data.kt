@@ -33,7 +33,7 @@ object Data {
         )
 
         dataMp3.add(
-            Model(7, "Law Kana Bainanal Habib", "Nissa", R.drawable.nissa7, R.raw.sabyan_ibadallah)
+            Model(7, "Law Kana Bainanal Habib Ya Salam Alhamdu", "Nissa", R.drawable.nissa7, R.raw.sabyan_ibadallah)
         )
 
         dataMp3.add(

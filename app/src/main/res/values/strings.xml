@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Mp3 Offline</string>
-    <string name="tv_duration_start_00_00">0:00</string>
-    <string name="duration_00_00">0:00</string>
+    <string name="tv_duration_start_00_00">00:00</string>
+    <string name="duration_00_00">00:00</string>
     <string name="search_title">Search Title</string>
 
     <!--ADMOB ADS-->
