@@ -1,5 +1,6 @@
 package com.mp3.offline.ui
 
+import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
@@ -9,22 +10,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
-import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.mp3.offline.R
 import com.mp3.offline.adapter.ListAdapter
 import com.mp3.offline.databinding.ActivityMainBinding
 import com.mp3.offline.model.Model
+import com.mp3.offline.utils.AdmobAd
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private var TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding
     private lateinit var listAdapter: ListAdapter
     private lateinit var viewModel: MainViewModel
-    private lateinit var mInterstitialAd: InterstitialAd
+    private var mInterstitialAd: InterstitialAd? = null
     private var backToast: Toast? = null
     private var backPress: Long = 0
 
@@ -33,45 +34,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //admob code
+        //admob init
         MobileAds.initialize(this) {}
-        mInterstitialAd = InterstitialAd(this)
-        mInterstitialAd.adUnitId = resources.getString(R.string.AdMob_interstitial_id)
-        mInterstitialAd.loadAd(AdRequest.Builder().build())
-        mInterstitialAd.adListener = object: AdListener() {
-            override fun onAdClosed() {
-                super.onAdClosed()
-                mInterstitialAd.loadAd(AdRequest.Builder().build())
-            }
-        }
+        val adRequest = AdRequest.Builder().build()
 
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
         val data = viewModel.getDataMp3()
 
-        setRecyclerView(data)
+        setRecyclerView(data, adRequest)
         setSearch()
-
     }
 
-    private fun setRecyclerView(data: List<Model>) {
+    private fun setRecyclerView( data: List<Model>, adRequest: AdRequest) {
         binding.rvItem.layoutManager = LinearLayoutManager(this)
-        listAdapter = ListAdapter(this)
-        listAdapter.notifyDataSetChanged()
+        listAdapter = ListAdapter(this, adRequest)
         listAdapter.setData(data as ArrayList<Model>)
         binding.rvItem.adapter = listAdapter
 
-        listAdapter.setOnItemClickCallback(object : ListAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Model) {
-
-                if (mInterstitialAd.isLoaded) {
-                    mInterstitialAd.show()
-                }
-
-                val intent = Intent(this@MainActivity, DetailPlayActivity::class.java)
-                intent.putExtra("keyData", data)
-                startActivity(intent)
-            }
-        })
     }
 
     private fun setSearch(): Boolean {

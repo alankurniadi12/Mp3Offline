@@ -41,7 +41,7 @@ class DetailPlayActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         //Get data
-        dataDetail = intent.getParcelableExtra("keyData") as Model
+        dataDetail = intent.getParcelableExtra("keyData")!!
 
         //Set Ui
         binding.tvSongTitle.text = dataDetail!!.title

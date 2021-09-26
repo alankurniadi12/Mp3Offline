@@ -1,32 +1,39 @@
 package com.mp3.offline.adapter
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
 import com.mp3.offline.databinding.ItemBinding
 import com.mp3.offline.model.Model
+import com.mp3.offline.ui.DetailPlayActivity
+import com.mp3.offline.utils.AdmobAd
 
-class ListAdapter(private val activity: Activity):
+class ListAdapter(private val activity: Activity, private val adRequest: AdRequest):
     RecyclerView.Adapter<ListAdapter.ListViewHolder>(),
     Filterable {
 
-    private var onItemClickCallback: OnItemClickCallback? = null
+    private val TAG = "ListAdapter"
+    private val admobAd = AdmobAd(activity)
+    private var data = ArrayList<Model>()
+    private val dataFilter = ArrayList<Model>()
 
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
-    var data = ArrayList<Model>()
-    val dataFilter = ArrayList<Model>()
-
+    @SuppressLint("NotifyDataSetChanged")
     @JvmName("setData1")
     fun setData(items: ArrayList<Model>) {
         data.clear()
         data.addAll(items)
         dataFilter.addAll(items)
         notifyDataSetChanged()
+
+        admobAd.interstitialLoad(adRequest)
+        admobAd.interstitialFullScreenCallback()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -45,7 +52,17 @@ class ListAdapter(private val activity: Activity):
             binding.tvArtisName.text = model.artist
             binding.imgCover.setImageResource(model.photo)
 
-            binding.cardViewItem.setOnClickListener { onItemClickCallback?.onItemClicked(model) }
+            binding.cardViewItem.setOnClickListener {
+                Log.d(TAG, "card View Item Clicked")
+
+                admobAd.showInterstitialAd()
+
+                //Pindah ke Detail dan Membawa data
+                val intent = Intent(activity, DetailPlayActivity::class.java)
+                intent.putExtra("keyData", model)
+                activity.startActivity(intent)
+            }
+
         }
     }
 
@@ -76,9 +93,5 @@ class ListAdapter(private val activity: Activity):
             }
 
         }
-    }
-
-    interface OnItemClickCallback {
-        fun onItemClicked(data: Model)
     }
 }
