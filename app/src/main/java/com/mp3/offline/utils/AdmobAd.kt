@@ -11,44 +11,52 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.mp3.offline.R
 
 class AdmobAd(private val activity: Activity) {
-    private var TAG = "MainActivity"
+    private var TAG = "AdmobAd"
     private var mInterstitialAd: InterstitialAd? = null
 
-    fun interstitialLoad(adRequest: AdRequest) {
-
-        InterstitialAd.load(activity, activity.resources.getString(R.string.AdMob_interstitial_id), adRequest, object : InterstitialAdLoadCallback() {
+    fun interstitialLoad() {
+        val adRequest = AdRequest.Builder().build()
+        InterstitialAd.load(
+            activity,
+            activity.resources.getString(R.string.AdMob_interstitial_id),
+            adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 mInterstitialAd = null
             }
 
             override fun onAdLoaded(interStitialAd: InterstitialAd) {
                 mInterstitialAd = interStitialAd
+                Log.d(TAG, "Interstitial Loaded")
             }
         })
     }
 
-    fun interstitialFullScreenCallback() {
-        mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-            override fun onAdDismissedFullScreenContent() {
-                Log.d(TAG, "Ad was dismissed")
-            }
-
-            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                Log.d(TAG, "Ad Failed to show")
-            }
-
-            override fun onAdShowedFullScreenContent() {
-                Log.d(TAG, "Ad Showed fullscreen content")
-                mInterstitialAd = null
-            }
-        }
-    }
-
     fun showInterstitialAd() {
         if (mInterstitialAd != null) {
+
+            mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    Log.d(TAG, "Ad was dismissed")
+                    mInterstitialAd = null
+                    interstitialLoad()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    Log.d(TAG, "Ad Failed to show")
+                    mInterstitialAd = null
+                    interstitialLoad()
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    Log.d(TAG, "Ad Showed fullscreen content")
+                    mInterstitialAd = null
+                }
+            }
             mInterstitialAd?.show(activity)
+            Log.d(TAG, "The interstitial ad ready.")
         }else{
             Log.d(TAG, "The interstitial ad wasn't ready yet.")
+            interstitialLoad()
         }
     }
 }

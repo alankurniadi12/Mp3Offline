@@ -1,6 +1,5 @@
 package com.mp3.offline.ui
 
-import android.annotation.SuppressLint
 import android.app.SearchManager
 import android.content.Intent
 import android.os.Bundle
@@ -36,18 +35,17 @@ class MainActivity : AppCompatActivity() {
 
         //admob init
         MobileAds.initialize(this) {}
-        val adRequest = AdRequest.Builder().build()
 
         viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
         val data = viewModel.getDataMp3()
 
-        setRecyclerView(data, adRequest)
+        setRecyclerView(data)
         setSearch()
     }
 
-    private fun setRecyclerView( data: List<Model>, adRequest: AdRequest) {
+    private fun setRecyclerView(data: List<Model>) {
         binding.rvItem.layoutManager = LinearLayoutManager(this)
-        listAdapter = ListAdapter(this, adRequest)
+        listAdapter = ListAdapter(this)
         listAdapter.setData(data as ArrayList<Model>)
         binding.rvItem.adapter = listAdapter
 

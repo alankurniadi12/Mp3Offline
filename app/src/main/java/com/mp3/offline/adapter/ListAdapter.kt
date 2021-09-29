@@ -9,20 +9,20 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdRequest
 import com.mp3.offline.databinding.ItemBinding
 import com.mp3.offline.model.Model
 import com.mp3.offline.ui.DetailPlayActivity
 import com.mp3.offline.utils.AdmobAd
 
-class ListAdapter(private val activity: Activity, private val adRequest: AdRequest):
-    RecyclerView.Adapter<ListAdapter.ListViewHolder>(),
+class ListAdapter(
+    private val activity: Activity)
+    : RecyclerView.Adapter<ListAdapter.ListViewHolder>(),
     Filterable {
 
     private val TAG = "ListAdapter"
-    private val admobAd = AdmobAd(activity)
     private var data = ArrayList<Model>()
     private val dataFilter = ArrayList<Model>()
+    private var admobAd = AdmobAd(activity)
 
     @SuppressLint("NotifyDataSetChanged")
     @JvmName("setData1")
@@ -31,9 +31,8 @@ class ListAdapter(private val activity: Activity, private val adRequest: AdReque
         data.addAll(items)
         dataFilter.addAll(items)
         notifyDataSetChanged()
-
-        admobAd.interstitialLoad(adRequest)
-        admobAd.interstitialFullScreenCallback()
+        //Load Admob Ad
+        admobAd.interstitialLoad()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding = ItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -55,6 +54,7 @@ class ListAdapter(private val activity: Activity, private val adRequest: AdReque
             binding.cardViewItem.setOnClickListener {
                 Log.d(TAG, "card View Item Clicked")
 
+                //show Admob interstitial Ad
                 admobAd.showInterstitialAd()
 
                 //Pindah ke Detail dan Membawa data
