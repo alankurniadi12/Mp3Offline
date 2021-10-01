@@ -15,13 +15,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/img_cover"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="fitXY"
-            tools:ignore="ContentDescription"
-            tools:src="@drawable/nissa1" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -30,20 +23,8 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:layout_toEndOf="@id/img_cover"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
+            android:layout_margin="16dp"
             tools:text="Song Title" />
 
-        <TextView
-            android:id="@+id/tv_artis_name"
-            style="@style/Artist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/img_cover"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_alignBottom="@id/img_cover"
-            tools:text="Artist Name" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

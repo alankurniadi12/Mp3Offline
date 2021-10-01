@@ -31,13 +31,7 @@
         <item name="android:textColor">@color/colorBlack</item>
     </style>
 
-    <style name="Artist">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#A3A3A3</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
-    </style>
+
 
     <style name="duration">
         <item name="android:textSize">14sp</item>

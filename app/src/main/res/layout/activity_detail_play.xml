@@ -31,13 +31,6 @@
             android:theme="@style/Title"
             tools:text="Song title" />
 
-        <TextView
-            android:id="@+id/tv_artist"
-            style="@style/Artist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            tools:text="Artist" />
     </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
