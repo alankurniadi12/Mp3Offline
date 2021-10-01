@@ -6,8 +6,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Model (
     var id: Int,
-    var title: String,
-    var artist: String,
-    var photo: Int,
-    var mp3: Int
+    val title: String,
 ): Parcelable

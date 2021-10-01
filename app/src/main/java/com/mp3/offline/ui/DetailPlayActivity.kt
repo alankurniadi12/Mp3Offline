@@ -26,9 +26,13 @@ class DetailPlayActivity : AppCompatActivity() {
     private var dataDetail: Model? = null
     private var mp: MediaPlayer? = null
     var rotateAnimation: RotateAnimation? = null
-    lateinit var mAdView : AdView
+    lateinit var mAdView: AdView
     private lateinit var runnable: Runnable
     var mHandler: Handler? = null
+
+    companion object {
+        const val EXTRAS_DATA = "EXTRAS_DATA"
+    }
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,15 +45,13 @@ class DetailPlayActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         //Get data
-        dataDetail = intent.getParcelableExtra("keyData")!!
+        dataDetail = intent.getParcelableExtra(EXTRAS_DATA)!!
 
         //Set Ui
         binding.tvSongTitle.text = dataDetail!!.title
-        binding.tvArtist.text = dataDetail!!.artist
-        binding.imgCover.setImageResource(dataDetail!!.photo)
 
         //Initialize media player
-        mp = MediaPlayer.create(this, dataDetail!!.mp3)
+        mp = MediaPlayer.create(this, dataDetail!!.id)
         mp!!.isLooping = true
 
 
@@ -95,10 +97,11 @@ class DetailPlayActivity : AppCompatActivity() {
     }
 
     private fun convertFormat(duration: Int): String {
-        return String.format("%02d:%02d",
+        return String.format(
+            "%02d:%02d",
             TimeUnit.MILLISECONDS.toMinutes(duration.toLong()),
             TimeUnit.MILLISECONDS.toSeconds(duration.toLong()) -
-            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong()))
+                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration.toLong()))
         )
     }
 
@@ -138,12 +141,14 @@ class DetailPlayActivity : AppCompatActivity() {
 
             binding.imgPlay.setImageResource(R.drawable.ic_pause_circle_24)
 
-            rotateAnimation = RotateAnimation(0f, 360f,
+            rotateAnimation = RotateAnimation(
+                0f, 360f,
                 Animation.RELATIVE_TO_SELF, 0.5f,
-                Animation.RELATIVE_TO_SELF, 0.5f)
+                Animation.RELATIVE_TO_SELF, 0.5f
+            )
             rotateAnimation!!.duration = 15000
             rotateAnimation!!.interpolator = LinearInterpolator()
-            rotateAnimation!!.repeatCount =Animation.INFINITE
+            rotateAnimation!!.repeatCount = Animation.INFINITE
 
             binding.imgCover.startAnimation(rotateAnimation)
         }

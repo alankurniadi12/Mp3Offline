@@ -7,24 +7,19 @@ import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.ads.*
-import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.mp3.offline.R
 import com.mp3.offline.adapter.ListAdapter
 import com.mp3.offline.databinding.ActivityMainBinding
 import com.mp3.offline.model.Model
-import com.mp3.offline.utils.AdmobAd
+import com.mp3.offline.support.Utils
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding
     private lateinit var listAdapter: ListAdapter
-    private lateinit var viewModel: MainViewModel
-    private var mInterstitialAd: InterstitialAd? = null
     private var backToast: Toast? = null
     private var backPress: Long = 0
 
@@ -36,10 +31,7 @@ class MainActivity : AppCompatActivity() {
         //admob init
         MobileAds.initialize(this) {}
 
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
-        val data = viewModel.getDataMp3()
-
-        setRecyclerView(data)
+        setRecyclerView(Utils.getMp3File())
         setSearch()
     }
 
@@ -48,12 +40,10 @@ class MainActivity : AppCompatActivity() {
         listAdapter = ListAdapter(this)
         listAdapter.setData(data as ArrayList<Model>)
         binding.rvItem.adapter = listAdapter
-
     }
 
     private fun setSearch(): Boolean {
         val searchManager = getSystemService(SEARCH_SERVICE) as SearchManager
-
         binding.search.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         binding.search.queryHint = resources.getString(R.string.search_title)
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -71,7 +61,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-
         backToast = Toast.makeText(this, "Press back again to exit!", Toast.LENGTH_SHORT)
         if (backPress + 2000 > System.currentTimeMillis()) {
             val intent = Intent(Intent.ACTION_MAIN)
@@ -85,6 +74,5 @@ class MainActivity : AppCompatActivity() {
         }
         backPress = System.currentTimeMillis()
         return true
-
     }
 }

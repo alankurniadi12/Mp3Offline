@@ -3,7 +3,6 @@ package com.mp3.offline.adapter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
@@ -12,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mp3.offline.databinding.ItemBinding
 import com.mp3.offline.model.Model
 import com.mp3.offline.ui.DetailPlayActivity
-import com.mp3.offline.utils.AdmobAd
+import com.mp3.offline.support.AdmobAd
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ListAdapter(
     private val activity: Activity)
     : RecyclerView.Adapter<ListAdapter.ListViewHolder>(),
     Filterable {
 
-    private val TAG = "ListAdapter"
     private var data = ArrayList<Model>()
     private val dataFilter = ArrayList<Model>()
     private var admobAd = AdmobAd(activity)
@@ -48,18 +48,13 @@ class ListAdapter(
     inner class ListViewHolder(private val binding: ItemBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(model: Model){
             binding.tvTitle.text = model.title
-            binding.tvArtisName.text = model.artist
-            binding.imgCover.setImageResource(model.photo)
-
             binding.cardViewItem.setOnClickListener {
-                Log.d(TAG, "card View Item Clicked")
-
                 //show Admob interstitial Ad
                 admobAd.showInterstitialAd()
 
                 //Pindah ke Detail dan Membawa data
                 val intent = Intent(activity, DetailPlayActivity::class.java)
-                intent.putExtra("keyData", model)
+                intent.putExtra(DetailPlayActivity.EXTRAS_DATA, model)
                 activity.startActivity(intent)
             }
 
@@ -74,10 +69,10 @@ class ListAdapter(
                     filterResult.count = dataFilter.size
                     filterResult.values = dataFilter
                 } else {
-                    val search = constraint.toString().toLowerCase()
+                    val search = constraint.toString().lowercase(Locale.getDefault())
                     val itemModel = ArrayList<Model>()
                     for (i in dataFilter) {
-                        if (i.title.toLowerCase().contains(search) || i.artist.toLowerCase().contains(search)) {
+                        if (i.title.lowercase(Locale.getDefault()).contains(search)) {
                             itemModel.add(i)
                         }
                     }

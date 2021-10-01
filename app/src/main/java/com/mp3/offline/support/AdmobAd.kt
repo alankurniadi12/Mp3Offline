@@ -1,4 +1,4 @@
-package com.mp3.offline.utils
+package com.mp3.offline.support
 
 import android.app.Activity
 import android.util.Log
@@ -11,7 +11,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.mp3.offline.R
 
 class AdmobAd(private val activity: Activity) {
-    private var TAG = "AdmobAd"
+    private val TAG = "AdmobAd"
     private var mInterstitialAd: InterstitialAd? = null
 
     fun interstitialLoad() {
